@@ -10,7 +10,21 @@ export default function App(){
  const update=(fn:(c:Career)=>Career)=>setCareer(c=>c?fn(c):c);
  const avg=career?Math.round((career.skills.technique+career.skills.power+career.skills.temperament+career.skills.fitness)/4):0;
  const start=()=>{if(!draft.name.trim()){setNotice('Enter your player name to begin.');return}setCareer({...draft,log:[`Week 1: ${draft.name} begins as an unknown rookie in ${draft.hometown}.`]});setScreen('home');setNotice('Career created. Your journey starts at local cricket.')};
- const train=(kind:'nets'|'fitness'|'mental')=>{if(!career)return;const cost=kind==='nets'?350:kind==='fitness'?200:150;if(career.money<cost){setNotice('Not enough funds for this training session.');return}update(c=>({...c,money:c.money-cost,fatigue:Math.min(100,c.fatigue+(kind==='fitness'?8:14)),training:c.training+1,skills:{...c.skills,[kind==='nets'?'technique':kind==='fitness'?'fitness':'temperament']:Math.min(99,c.skills[kind==='nets'?'technique':kind==='fitness'?'fitness':'temperament']+2},log:[`Training: ${kind} session completed (-₹${cost}).`,...c.log]})));setNotice('Training completed: +2 skill, fatigue increased.')};
+ const train=(kind:'nets'|'fitness'|'mental')=>{
+  if(!career)return;
+  const cost=kind==='nets'?350:kind==='fitness'?200:150;
+  if(career.money<cost){setNotice('Not enough funds for this training session.');return}
+  const skill=kind==='nets'?'technique':kind==='fitness'?'fitness':'temperament';
+  update(c=>({
+   ...c,
+   money:c.money-cost,
+   fatigue:Math.min(100,c.fatigue+(kind==='fitness'?8:14)),
+   training:c.training+1,
+   skills:{...c.skills,[skill]:Math.min(99,c.skills[skill]+2)},
+   log:[`Training: ${kind} session completed (-₹${cost}).`,...c.log]
+  }));
+  setNotice('Training completed: +2 skill, fatigue increased.')
+ };
  const play=()=>{if(!career||match.phase==='complete')return;let n:FullMatch;if(match.phase==='batting'){const b=resolveBall(career.skills.technique+career.skills.power,career.confidence,shot,intent,match.seed+match.player.balls+match.player.runs+match.player.wickets);n={...match,player:applyInningsBall(match.player,b),seed:match.seed+1};}else{const b=resolveOppositionBall(match.seed+match.opposition.balls+match.opposition.runs+match.opposition.wickets,career.skills.temperament,career.skills.fitness);n={...match,opposition:applyInningsBall(match.opposition,b),seed:match.seed+1};}n=finishIfNeeded(n);setMatch(n);if(n.phase==='complete'){const won=n.player.runs>n.opposition.runs;update(c=>({...c,matches:c.matches+1,runs:c.runs+n.player.runs,wickets:c.wickets+n.opposition.wickets,confidence:Math.max(10,Math.min(90,c.confidence+(won?5:-2))),money:c.money+500,log:[`T20: ${n.result} (${n.player.runs}/${n.player.wickets} vs ${n.opposition.runs}/${n.opposition.wickets}); match fee +₹500.`,...c.log]}));setNotice('Match completed. Scorecard and career statistics updated.');}};
  const nav=(s:Screen)=>{setScreen(s);setNotice('')};
  const reset=()=>{if(confirm('Delete this career save and return to player creation?')){localStorage.removeItem(KEY);setCareer(null);setDraft(defaults);setMatch(freshFullMatch());setScreen('home')}};
