@@ -24,16 +24,19 @@ jobs:
         run: |
           PROJECT=$(find extracted -type f -name package.json -printf '%h\n' | head -n 1)
           echo "PROJECT=$PROJECT" >> $GITHUB_ENV
-          echo "Project directory: $PROJECT"
 
-      - name: Copy complete project
+      - name: Copy source without nested workflows
         run: |
-          cp -a "$PROJECT"/. .
+          rm -rf extracted
+          mkdir extracted
+          unzip -o LongInnings_Project_Download.zip -d extracted
+          PROJECT=$(find extracted -type f -name package.json -printf '%h\n' | head -n 1)
+          tar -C "$PROJECT" --exclude='./.github' -cf - . | tar -xf -
 
       - name: Commit extracted source
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "Extract cricket game source from ZIP" || echo "Nothing to commit"
+          git commit -m "Extract cricket game source"
           git push
