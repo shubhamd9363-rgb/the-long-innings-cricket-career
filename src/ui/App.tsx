@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useState} from 'react';
+import {useEffect,useState} from 'react';
 import {applyInningsBall,freshFullMatch,resolveBall,resolveOppositionBall,finishIfNeeded,type Career,type FullMatch,type Shot,type BatterIntent} from '../domain/match';
 const KEY='long-innings-career-v1';
 const defaults:Career={name:'',age:16,hometown:'Hyderabad',state:'Telangana',hand:'Right-handed',role:'Batter',style:'Balanced',ambition:'India player',background:'Middle-income',level:'Local cricket',week:1,skills:{technique:48,power:42,temperament:50,fitness:65},money:2500,fatigue:12,confidence:50,runs:0,wickets:0,matches:0,training:0,log:['Career started: unknown rookie, local cricket.']};
