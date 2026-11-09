@@ -1,3 +1,4 @@
+
 {
   "name": "the-long-innings-cricket-career",
   "private": true,
@@ -26,6 +27,7 @@
     "globals": "latest",
     "vitest": "latest",
     "@types/react": "latest",
-    "@types/react-dom": "latest"
+    "@types/react-dom": "latest",
+    "@types/node": "^22.15.30"
   }
 }
