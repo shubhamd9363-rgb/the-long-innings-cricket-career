@@ -14,3 +14,6 @@
 
 /* Phase 1 tactical bowling controls */
 .bowling-controls{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin:18px 0}.bowling-controls label{display:flex;flex-direction:column;gap:7px;color:#9cb4a3;font-size:11px}.bowling-controls select{background:#0c1a12;border:1px solid #2b4a35;color:#dbe8de;padding:12px;border-radius:8px;outline:none}.bowling-controls select:focus{border-color:#c5a665}@media(max-width:650px){.bowling-controls{grid-template-columns:1fr 1fr}}
+
+/* Player career match scorecard */
+.matchinfo{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px;background:#102016;border:1px solid #294332;border-radius:10px;margin:12px 0;color:#a9c0af}.matchinfo b{color:#f3f5ee}.scoretable{border:1px solid #294332;border-radius:10px;overflow:auto;margin:12px 0}.scorehead,.scorerow{display:grid;grid-template-columns:minmax(130px,2fr) repeat(4,minmax(35px,.5fr)) minmax(100px,1fr);gap:8px;padding:11px 12px;min-width:520px}.scorehead{background:#15271a;color:#9db5a2;font-size:11px;text-transform:uppercase}.scorerow{border-top:1px solid #223a29;color:#dce7dc;font-size:13px}.scorerow span:first-child{font-weight:600}.scorerow span:last-child{color:#9fb49f}
