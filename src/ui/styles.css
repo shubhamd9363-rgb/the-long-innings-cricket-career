@@ -11,3 +11,6 @@
 .scorecard small{display:block;color:var(--muted,#9ba99f);font-size:10px;letter-spacing:1.5px}
 .scorecard b{display:block;font-size:28px;margin:8px 0}
 .scorecard p{margin:0;color:var(--muted,#9ba99f)}
+
+/* Phase 1 tactical bowling controls */
+.bowling-controls{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:12px;margin:18px 0}.bowling-controls label{display:flex;flex-direction:column;gap:7px;color:#9cb4a3;font-size:11px}.bowling-controls select{background:#0c1a12;border:1px solid #2b4a35;color:#dbe8de;padding:12px;border-radius:8px;outline:none}.bowling-controls select:focus{border-color:#c5a665}@media(max-width:650px){.bowling-controls{grid-template-columns:1fr 1fr}}
