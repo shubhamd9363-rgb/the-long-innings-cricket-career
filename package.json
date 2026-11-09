@@ -1,0 +1,31 @@
+{
+  "name": "the-long-innings-cricket-career",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "typescript": "latest",
+    "eslint": "latest",
+    "@eslint/js": "latest",
+    "typescript-eslint": "latest",
+    "globals": "latest",
+    "vitest": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
+  }
+}
