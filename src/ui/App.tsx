@@ -1,4 +1,5 @@
-import {useEffect,useState} from 'react';\nimport MatchArena from './MatchArena';
+import {useEffect,useState} from 'react';
+import MatchArena from './MatchArena';
 import {applyInningsBall,freshFullMatch,resolveBall,finishIfNeeded,type Career,type FullMatch,type Shot,type BatterIntent,type Ball} from '../domain/match';
 import {resolveBowlingBall,type BowlingPlan} from '../domain/bowlingTactics';
 const KEY='long-innings-career-v1';
