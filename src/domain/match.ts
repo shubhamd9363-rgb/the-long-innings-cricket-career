@@ -1,5 +1,8 @@
 export type BatterIntent = 'defend' | 'balanced' | 'attack';
 export type Shot = 'leave' | 'block' | 'rotate' | 'drive' | 'cut' | 'pull' | 'loft';
+export type BowlingLine = 'off-stump' | 'middle' | 'leg-stump' | 'wide';
+export type BowlingLength = 'yorker' | 'full' | 'good' | 'short';
+export type BowlingVariation = 'stock' | 'swing' | 'seam' | 'spin';
 export type Ball = { runs:number; legal:boolean; wicket:boolean; text:string; shot:Shot; intent:BatterIntent };
 export type Career = {
   name:string; age:number; hometown:string; state:string; hand:string; role:string;
@@ -29,10 +32,15 @@ export function applyInningsBall(i:Innings,b:Ball):Innings{
  if(i.done)return i;const n={...i,runs:i.runs+b.runs,wickets:i.wickets+(b.wicket?1:0),balls:i.balls+(b.legal?1:0),log:[b,...i.log]};
  n.done=n.wickets>=10||n.balls>=120;return n;
 }
-export function resolveOppositionBall(seed:number,playerBowling:number,playerFitness:number):Ball{
- const r=random(seed,10),wicketChance=.025+Math.max(0,playerBowling-50)*.00035+Math.max(0,70-playerFitness)*.0002;
- if(r<wicketChance)return {runs:0,legal:true,wicket:true,text:'Excellent delivery! The batter is dismissed.',shot:'block',intent:'balanced'};
- const x=random(seed,11);const runs=x<.08?0:x<.43?1:x<.67?2:x<.76?3:x<.94?4:6;
+export function resolveOppositionBall(seed:number,playerBowling:number,playerFitness:number,line:BowlingLine='off-stump',length:BowlingLength='good',variation:BowlingVariation='stock'):Ball{
+ const lineBonus=line==='off-stump'?.012:line==='middle'?.006:line==='wide'?.002:-.004;
+ const lengthBonus=length==='good'?.018:length==='yorker'?.014:length==='short'?.004:-.006;
+ const variationBonus=variation==='seam'?.012:variation==='swing'?.01:variation==='spin'?.008:0;
+ const r=random(seed,10),wicketChance=.025+Math.max(0,playerBowling-50)*.00035+Math.max(0,70-playerFitness)*.0002+lineBonus+lengthBonus+variationBonus;
+ if(r<Math.max(.01,wicketChance))return {runs:0,legal:true,wicket:true,text:`WICKET! ${length} ${variation} on ${line} beats the batter.`,shot:'block',intent:'balanced'};
+ const x=random(seed,11);let runs=x<.08?0:x<.43?1:x<.67?2:x<.76?3:x<.94?4:6;
+ if(line==='wide'&&x>.45)runs=Math.min(6,runs+1);
+ if(length==='short'&&x>.7)runs=Math.min(6,runs+2);
  return {runs,legal:true,wicket:false,text:runs===0?'Dot ball. Good pressure.':runs===4?'Driven to the boundary.':runs===6?'Launched for six!':`${runs} run${runs===1?'':'s'} taken.`,shot:'rotate',intent:'balanced'};
 }
 export function finishIfNeeded(m:FullMatch):FullMatch{
