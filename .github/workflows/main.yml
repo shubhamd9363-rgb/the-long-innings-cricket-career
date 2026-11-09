@@ -24,14 +24,11 @@ jobs:
         run: |
           PROJECT=$(find extracted -type f -name package.json -printf '%h\n' | head -n 1)
           echo "PROJECT=$PROJECT" >> $GITHUB_ENV
+          echo "Project directory: $PROJECT"
 
-      - name: Copy project source
+      - name: Copy complete project
         run: |
-          cp -r "$PROJECT"/.github .
-          cp -r "$PROJECT"/src .
-          cp -r "$PROJECT"/public .
-          cp "$PROJECT"/* .
-          cp "$PROJECT"/.* . 2>/dev/null || true
+          cp -a "$PROJECT"/. .
 
       - name: Commit extracted source
         run: |
