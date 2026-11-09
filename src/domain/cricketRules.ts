@@ -37,7 +37,7 @@ export function applyDelivery(state:CricketInnings,input:DeliveryInput,bowlerInd
   batter.runs+=batterRuns;if(boundary===4)batter.fours++;if(boundary===6)batter.sixes++;
   s.total+=batterRuns+extra;
   // Strike changes on odd completed runs; over-end rotation happens after the delivery.
-  if((batterRuns+((kind==='bye'||kind==='leg-bye')?extra:0)+completed)%2===1)[s.striker,s.nonStriker]=[s.nonStriker,s.striker];
+  if((batterRuns+((kind==='bye'||kind==='leg-bye')?extra:0)+completed)%2===1){[s.striker,s.nonStriker]=[s.nonStriker,s.striker];}
   if(input.wicket && s.nextBatter<s.batters.length){
     batter.out=true;batter.dismissal=input.wicket;s.wickets++;bowler.wickets++;
     s.striker=s.nextBatter++;
